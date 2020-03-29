@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ray.c                                           :+:      :+:    :+:   */
+/*   ft_ray_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:49:48 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/12 15:51:58 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/11 14:43:19 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,47 +33,41 @@ int		ft_check(char *s)
 	return (1);
 }
 
-int		ft_check_obj_val(t_obj obj)
+int		ft_reader_help(t_info *info, char *line)
 {
-	if (ft_check_sp_val(obj.sp) == -1 || ft_check_pl_val(obj.pl) == -1 ||
-		ft_check_sq_val(obj.sq) == -1 || ft_check_tr_val(obj.tr) == -1 ||
-		ft_check_cy_val(obj.cy) == -1)
-		return (-1);
-	else
+	if (line[0] == 'y')
+		return (ft_add_cy(info, &line[1]));
+	if (line[0] == ' ')
+		return (ft_add_c(info, &line[1]));
+	if (line[0] == 'u')
+		return (ft_add_cube(info, &line[1]));
+	return (-1);
+}
+
+int		ft_reader(t_info *info, char *line)
+{
+	if (line[0] == '\0')
 		return (1);
-}
-
-int		ft_check_lights_val(t_l *lights)
-{
-	while (lights != NULL)
+	if (line[0] == 'R')
+		return (ft_add_r(info, &line[1]));
+	if (line[0] == 'A')
+		return (ft_add_a(info, &line[1]));
+	if (line[0] == 'c')
+		return (ft_reader_help(info, &line[1]));
+	if (line[0] == 'l')
+		return (ft_add_l(info, &line[1]));
+	if (line[0] == 'p')
+		return (ft_add_plane(info, &line[2]));
+	if (line[0] == 't')
+		return (ft_add_tr(info, &line[2]));
+	if (line[0] == 's')
 	{
-		if (lights->b < 0 || lights->b > 1.00000000)
-			return (-1);
-		if (ft_check_color_val(lights->color) == -1)
-			return (-1);
-		lights = lights->next;
+		if (line[1] == 'p')
+			return (ft_add_spheres(info, &line[2]));
+		if (line[1] == 'q')
+			return (ft_add_sq(info, &line[2]));
 	}
-	return (1);
-}
-
-int		ft_check_objects_val(t_info *info)
-{
-	if ((*info).res[0] <= 0 || (*info).res[1] <= 0)
-		return (-1);
-	if ((*info).res[0] > 2560)
-		(*info).res[0] = 2560;
-	if ((*info).res[1] > 1440)
-		(*info).res[1] = 1440;
-	if (ft_check_cameras_val((*info).cam) == -1)
-		return (-1);
-	if (ft_check_obj_val((*info).obj) == -1)
-		return (-1);
-	if (ft_check_lights_val((*info).l) == -1)
-		return (-1);
-	if ((*info).al.r < 0.00000000 || (*info).al.r > 1.00000000 ||
-		ft_check_color_val((*info).al.color) == -1)
-		return (-1);
-	return (1);
+	return (-1);
 }
 
 int		ft_parse_rt(int fd, t_info *info)

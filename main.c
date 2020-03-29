@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:51:18 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/12 18:26:09 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/12 18:28:32 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ray.h"
-
-int		ft_check_inp(t_info info)
-{
-	if (info.cam == NULL || info.res[0] == 0 || info.res[1] == 0)
-	{
-		write(2, "Error\nMistake in the scene file\n", 32);
-		return (-1);
-	}
-	return (1);
-}
 
 int		ft_strcmp(char *s1, char *s2)
 {
@@ -40,11 +30,13 @@ void	ft_null_info(t_info *info)
 {
 	info->cam = NULL;
 	info->res[0] = 0;
+	info->filter = 0;
 	info->obj.sp = NULL;
 	info->obj.pl = NULL;
 	info->obj.sq = NULL;
 	info->obj.tr = NULL;
 	info->obj.cy = NULL;
+	info->obj.cu = NULL;
 	info->al.r = 0;
 	ft_fill_v(&info->al.color, 0, 0, 0);
 }
@@ -64,6 +56,12 @@ int		ft_open_file(char *file)
 		exit(-1);
 	}
 	return (fd);
+}
+
+int		ft_error(void)
+{
+	write(2, "Error\nMistake in the scene file\n", 32);
+	return (-1);
 }
 
 int		main(int argc, char **argv)

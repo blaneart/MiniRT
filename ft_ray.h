@@ -6,24 +6,26 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 14:02:23 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/13 15:38:02 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/03/29 17:19:17 by art              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_RAY_H
 # define FT_RAY_H
-# include "mlx.h"
-# include <unistd.h>
+# include "minilibx_opengl/mlx.h"
 # include <math.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <unistd.h>
 # include <sys/errno.h>
 # include <string.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
 # endif
 # include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
 
 typedef struct	s_pixel
 {
@@ -126,6 +128,27 @@ typedef struct	s_sq
 	struct s_sq		*next;
 }				t_sq;
 
+typedef struct	s_cs
+{
+	t_vector		coor;
+	t_vector		norm;
+	float			size;
+	t_vector		color;
+	t_vector		up;
+	t_vector		r;
+	t_vector		*k;
+	struct s_cs		*next;
+}				t_cs;
+
+typedef struct	s_cu
+{
+	t_vector		coor;
+	t_vector		norm;
+	float			size;
+	t_vector		color;
+	struct s_cu		*next;
+}				t_cu;
+
 typedef struct	s_cy
 {
 	t_vector		coor;
@@ -150,6 +173,8 @@ typedef struct	s_obj
 	t_sq *sq;
 	t_tr *tr;
 	t_cy *cy;
+	t_cu *cu;
+	t_cs *cs;
 }				t_obj;
 
 typedef struct	s_info
@@ -160,7 +185,14 @@ typedef struct	s_info
 	t_l		*l;
 	t_amb	al;
 	t_mlx	mlx;
+	int		filter;
 }				t_info;
+
+typedef	struct	s_thread_data
+{
+	int		thread_id;
+	t_info	*info;
+}				t_thread_data;
 
 t_vector		g_up;
 t_vector		g_right;
@@ -226,31 +258,51 @@ int				ft_exit(t_info *info);
 t_vector		ft_get_coef(t_vector c, t_vector l, t_vector norm, t_l *light);
 void			ft_get_spec(t_vector *coef, t_vector *ld, t_l *light,
 							t_vector norm);
+int				ft_add_cube(t_info *info, char *line);
+void			ft_inter_cu(t_vector d, t_info info, double *t, int *color);
+int				ft_add_square(t_sq **square, t_vector *c, float size);
+int				ft_shade_cu(t_info info, t_vector d, t_cs *sq);
+int				ft_obs_cu(t_info info, t_cu *cu, t_vector l, t_vector d);
+t_cs			*ft_add_cs(t_cs **s, t_vector *c, float size, t_vector color);
+int				ft_obs_cu(t_info info, t_cu *cu, t_vector l, t_vector d);
+void			ft_fill_cs(t_vector *c, t_vector norm, t_vector up, t_vector r);
+int				ft_shade_cy_ci(t_info info, t_vector d, t_cy *cy);
+void			ft_inter_cy_ci(t_vector d, t_info info, double *t, int *color);
+void			ft_cy_help(t_cy *cy, double *a, t_vector d, t_info info);
+int				ft_obs_cy_cup(t_info info, t_cy *cy, t_vector l, t_vector d);
+void			ft_cu_help(t_cs **cs, t_cu *cu, t_vector *s);
 int				ft_check_input(char *line);
-int				ft_check_color(char *line);
+void			ft_change_cam(t_cam **cam, int pos);
+int				ft_check_objects_val(t_info *info);
+int				ft_check_inp(t_info info);
+int				ft_sizeof_tab(char **tab);
+int				ft_check_int(char *line);
+int				ft_check_fl(char *line);
 int				ft_free_tab(char **tab);
-char			**ft_split(char *line, char c);
-int				ft_check_a(char **line);
-int				ft_check_pos(char *line);
-int				ft_check_norm(char *line);
-int				ft_check_c(char **line);
-int				ft_check_l(char **line);
+int				ft_check_color(char *line);
+int				ft_check_res(char **line);
+int				ft_check_color_val(t_vector color);
+int				ft_check_norm_val(t_vector norm);
+int				ft_check_cameras_val(t_cam *cam);
+int				ft_check_cu(char **line);
 int				ft_check_tr(char **line);
 int				ft_check_cy(char **line);
 int				ft_check_sq(char **line);
 int				ft_check_plane(char **line);
-int				ft_error(void);
-int				ft_check_cameras_val(t_cam *cam);
-int				ft_check_norm_val(t_vector norm);
-int				ft_check_color_val(t_vector color);
-int				ft_reader(t_info *info, char *line);
-int				ft_check_sp_val(t_sp *sp);
-int				ft_check_pl_val(t_pl *pl);
-int				ft_check_sq_val(t_sq *sq);
-int				ft_check_cy_val(t_cy *cy);
+char			**ft_split(char *line, char c);
+int				ft_check_lights_val(t_l *lights);
+int				ft_check_obj_val(t_obj obj);
+int				ft_check_cu_val(t_cu *cu);
 int				ft_check_tr_val(t_tr *tr);
-int				ft_check_fl(char *line);
-int				ft_sizeof_tab(char **tab);
-int				ft_check_res(char **line);
-
+int				ft_check_cy_val(t_cy *cy);
+int				ft_check_sq_val(t_sq *sq);
+int				ft_check_pl_val(t_pl *pl);
+int				ft_check_sp_val(t_sp *sp);
+int				ft_check_pos(char *line);
+int				ft_check_a(char **line);
+int				ft_check_norm(char *line);
+int				ft_check_c(char **line);
+int				ft_check_l(char **line);
+int				deal_mouse(int b, int x, int y, t_info *info);
+void			ft_draw_help(t_info info);
 #endif

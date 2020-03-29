@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_shade_cy.c                                      :+:      :+:    :+:   */
+/*   ft_shade_cy_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:50:12 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/12 16:47:05 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/12 16:47:16 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_shade_cy_beh(t_info info, t_vector d, t_cy *cy)
 	{
 		n[1] = ft_vsbst(d, ft_vsbst(cy->coor, info.cam->o));
 		n[0] = ft_inv(ft_vsbst(n[1], ft_constmult(ft_dot_product(n[1],
-					cy->norm), cy->norm)));
+				cy->norm), cy->norm)));
 		l[0] = ft_vsbst(lt->coor, ft_vecsum(d, info.cam->o));
 		if (ft_dot_product(l[0], n[0]) > 1e-2 && !ft_check_obst(info, l[0], d))
 		{

@@ -1,64 +1,88 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_input.c                                   :+:      :+:    :+:   */
+/*   ft_check_input_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 16:33:52 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/11 15:23:19 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/11 14:37:27 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ray.h"
 
-int		ft_reader_tab_help(char **line)
+int		ft_check_plane(char **line)
 {
-	if (line[0][1] == 'y')
-		return (ft_check_cy(line));
-	if (line[0][1] == '\0')
-		return (ft_check_c(line));
-	return (-1);
+	if (ft_sizeof_tab(line) != 4)
+		return (-1);
+	if (ft_check_pos(line[1]) == -1)
+		return (-1);
+	if (ft_check_norm(line[2]) == -1)
+		return (-1);
+	if (ft_check_color(line[3]) == -1)
+		return (-1);
+	return (1);
 }
 
-int		ft_reader_tab(char **line)
+int		ft_check_sq(char **line)
 {
-	if (line[0][0] == 'R')
-		return (ft_check_res(line));
-	if (line[0][0] == 'A')
-		return (ft_check_a(line));
-	if (line[0][0] == 'c')
-		return (ft_reader_tab_help(line));
-	if (line[0][0] == 'l')
-		return (ft_check_l(line));
-	if (line[0][0] == 'p')
-		return (ft_check_plane(line));
-	if (line[0][0] == 't')
-		return (ft_check_tr(line));
-	if (line[0][0] == 's')
-	{
-		if (line[0][1] == 'p')
-			return (ft_check_l(line));
-		if (line[0][1] == 'q')
-			return (ft_check_sq(line));
-	}
-	return (-1);
+	if (ft_sizeof_tab(line) != 5)
+		return (-1);
+	if (ft_check_pos(line[1]) == -1)
+		return (-1);
+	if (ft_check_norm(line[2]) == -1)
+		return (-1);
+	if (ft_check_fl(line[3]) == -1)
+		return (-1);
+	if (ft_check_color(line[4]) == -1)
+		return (-1);
+	return (1);
 }
 
-int		ft_check_input(char *line)
+int		ft_check_cy(char **line)
 {
-	char	**tab;
-	int		k;
+	if (ft_sizeof_tab(line) != 6)
+		return (-1);
+	if (ft_check_pos(line[1]) == -1)
+		return (-1);
+	if (ft_check_norm(line[2]) == -1)
+		return (-1);
+	if (ft_check_fl(line[3]) == -1)
+		return (-1);
+	if (ft_check_fl(line[4]) == -1)
+		return (-1);
+	if (ft_check_color(line[5]) == -1)
+		return (-1);
+	return (1);
+}
 
-	k = 0;
-	if (line == NULL || line[0] == '\0')
-		return (0);
-	if (!(tab = ft_split(line, ' ')))
+int		ft_check_tr(char **line)
+{
+	if (ft_sizeof_tab(line) != 5)
 		return (-1);
-	if (ft_reader_tab(tab) == -1)
-	{
-		ft_free_tab(tab);
+	if (ft_check_pos(line[1]) == -1)
 		return (-1);
-	}
-	return (ft_free_tab(tab));
+	if (ft_check_pos(line[2]) == -1)
+		return (-1);
+	if (ft_check_pos(line[3]) == -1)
+		return (-1);
+	if (ft_check_color(line[4]) == -1)
+		return (-1);
+	return (1);
+}
+
+int		ft_check_cu(char **line)
+{
+	if (ft_sizeof_tab(line) != 5)
+		return (-1);
+	if (ft_check_pos(line[1]) == -1)
+		return (-1);
+	if (ft_check_norm(line[2]) == -1)
+		return (-1);
+	if (ft_check_fl(line[3]) == -1)
+		return (-1);
+	if (ft_check_color(line[4]) == -1)
+		return (-1);
+	return (1);
 }

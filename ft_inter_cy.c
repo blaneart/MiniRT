@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_inter_cy.c                                      :+:      :+:    :+:   */
+/*   ft_inter_cy_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:48:56 by ablanar           #+#    #+#             */
-/*   Updated: 2019/12/25 20:47:53 by art              ###   ########.fr       */
+/*   Updated: 2019/12/30 17:56:45 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	ft_inter_cy(t_vector d, t_info info, double *t, int *color)
 		ft_cy_help(cy, &a[0], d, info);
 		if (ft_solveq(a, &k[0], &k[1]))
 		{
-			if (ft_check_eq(info, cy, d, k[0]) && k[0] < *t && k[0] >= 0)
+			if (ft_check_eq(info, cy, d, k[0]) && k[0] < *t && k[0] > 0)
 			{
 				*t = k[0];
 				*color = ft_shade_cy(info, ft_constmult(*t, d), cy);
 			}
-			else if (ft_check_eq(info, cy, d, k[1]) && k[1] < *t && k[1] >= 0)
+			else if (ft_check_eq(info, cy, d, k[1]) && k[1] < *t && k[1] > 0)
 			{
 				*t = k[1];
 				*color = ft_shade_cy_beh(info, ft_constmult(*t, d), cy);

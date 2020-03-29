@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_obst.c                                    :+:      :+:    :+:   */
+/*   ft_check_obst_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:46:32 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/10 19:26:02 by ablanar          ###   ########.fr       */
+/*   Updated: 2019/12/30 17:12:05 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ int		ft_check_obst(t_info info, t_vector l, t_vector d)
 	if (ft_obs_sq(info, info.obj.sq, l, d))
 		return (1);
 	if (ft_obs_cy(info, info.obj.cy, l, d))
+		return (1);
+	if (ft_obs_cu(info, info.obj.cu, l, d))
+		return (1);
+	if (ft_obs_cy_cup(info, info.obj.cy, l, d))
 		return (1);
 	return (0);
 }

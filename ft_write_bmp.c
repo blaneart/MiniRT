@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_write_bmp.c                                     :+:      :+:    :+:   */
+/*   ft_write_bmp_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:44:37 by ablanar           #+#    #+#             */
-/*   Updated: 2020/01/02 15:22:23 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/01/02 15:22:32 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ int		ft_save(t_info info)
 		}
 		x[1]++;
 	}
-	ft_bmp("pic.bmp", info.res[0], info.res[1], pixels);
+	ft_bmp("Pic.bmp", info.res[0], info.res[1], pixels);
 	return (ft_clear_pix(pixels, info.res[1], info.res[1]));
 }

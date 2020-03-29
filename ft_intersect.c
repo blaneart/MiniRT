@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intersect.c                                     :+:      :+:    :+:   */
+/*   ft_intersect_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:49:37 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/11 21:15:43 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/12 21:00:17 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	ft_recalculate(t_vector *norm, t_vector *ups, t_vector *rights)
 	*norm = ft_normilize(*norm);
 	ft_fill_v(ups, 0, 1, 0);
 	*ups = ft_normilize(*ups);
-	if ((*ups).x == (*norm).x && (*ups).y == (*norm).y && (*ups).z == (*norm).z)
+	if ((*ups).x == (*norm).x && (*ups).y ==
+		(*norm).y && (*ups).z == (*norm).z)
 		ft_fill_v(&(*ups), 0, 0, -1);
 	if ((*ups).x == (*norm).x && (*ups).y == -(*norm).y
 		&& (*ups).z == (*norm).z)
@@ -25,6 +26,7 @@ void	ft_recalculate(t_vector *norm, t_vector *ups, t_vector *rights)
 	*rights = ft_vmult(*ups, *norm);
 	*rights = ft_normilize(*rights);
 	*ups = ft_vmult(*norm, *rights);
+	*rights = ft_normilize(*rights);
 	*ups = ft_normilize(*ups);
 }
 
@@ -54,6 +56,8 @@ int		ft_intersect(int x, int y, t_info info)
 	ft_inter_pl(dir, info, &t, &color);
 	ft_inter_sq(dir, info, &t, &color);
 	ft_inter_tr(dir, info, &t, &color);
+	ft_inter_cy_ci(dir, info, &t, &color);
 	ft_inter_cy(dir, info, &t, &color);
+	ft_inter_cu(dir, info, &t, &color);
 	return (color);
 }

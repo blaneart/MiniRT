@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_add_camera.c                                    :+:      :+:    :+:   */
+/*   ft_add_camera_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:44:42 by ablanar           #+#    #+#             */
-/*   Updated: 2020/02/12 20:13:23 by ablanar          ###   ########.fr       */
+/*   Updated: 2020/02/12 21:28:42 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ int		ft_add_c(t_info *info, char *line)
 		return (-1);
 	if (ft_add_camera(&info->cam, o, norm, fov) == -1)
 		return (-1);
+	info->cam->norm = ft_normilize(info->cam->norm);
 	return (1);
 }
