@@ -6,7 +6,7 @@
 #    By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/10 19:51:10 by ablanar           #+#    #+#              #
-#    Updated: 2020/03/29 17:14:04 by art              ###   ########.fr        #
+#    Updated: 2020/03/29 17:25:11 by art              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,14 +32,17 @@ SRC =   ft_inter_cu.c ft_add_cube.c ft_shade_cu.c \
 		ft_split.c ft_val_checker.c ft_val_checker2.c \
 		ft_values_in_obj.c ft_cam_mov2.c
 
+SRCS			= $(addprefix $(FOLDER)/, $(SRC))
 
-OBJS =	$(SRC:.c=.o)
+FOLDER = ./src
+
+OBJS =	$(SRCS:.c=.o)
 
 CC =	gcc
 
 FRAME = 	-framework OpenGL -framework AppKit
 
-LMINX =		-I /usr/local/include -L./minilibx_opengl/ -lmlx
+LMINX =		-I ./include -L./minilibx_opengl/ -lmlx
 
 CFLAGS =	-Wall -Wextra -Werror
 
@@ -53,7 +56,7 @@ $(NAME):	$(OBJS)
 	gcc $(FRAME) $(CFLAGS) $(LMINX) -o $(NAME) $(OBJS)
 
 clean:
-	rm -f *.o
+	rm -f ./src/*.o
 	rm -f ./minilibx_opengl/*.o
 fclean: clean
 	rm -f ./minilibx_opengl/libmlx.a
